@@ -6,12 +6,13 @@ import Login from "./pages/Login/Login";
 import Create from "./pages/Create/Create";
 import Signup from "./pages/Signup/Signup";
 import Project from "./pages/Project/Project";
-
+import Navbar from "./components/Navbar/Navbar";
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <div className="container">
+          <Navbar />
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
