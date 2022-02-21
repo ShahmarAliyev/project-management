@@ -2,13 +2,43 @@ import React, { useState } from "react";
 import "./Signup.css";
 
 function Signup() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [displayName, setDisplayName] = useState();
-  const [thumbnail, setThumbnail] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [thumbnailError, setThumbnailError] = useState(null);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(email, password, displayName, thumbnail);
+    setEmail("");
+    setPassword("");
+    setDisplayName("");
+    thumbnail("");
+  };
+
+  const handleFileChange = (e) => {
+    setThumbnail(null);
+    let selected = e.target.files[0];
+
+    if (!selected) {
+      setThumbnailError("Please select a file");
+      return;
+    }
+    if (!selected.type.includes("image")) {
+      setThumbnailError("Selected file must be an image file");
+      return;
+    }
+    if (selected.size > 100000) {
+      setThumbnailError("Image file size must be less than 100kb");
+      return;
+    }
+    setThumbnailError(null);
+    setThumbnail(selected);
+    console.log("thumbnail updated");
+  };
   return (
-    <form className="auth-form">
+    <form onSubmit={handleSubmit} className="auth-form">
       <h2>Sign up</h2>
       <label>
         <span>email:</span>
@@ -39,7 +69,8 @@ function Signup() {
       </label>
       <label>
         <span>profile thumbnail:</span>
-        <input required type="file" value={thumbnail} />
+        <input required type="file" onChange={handleFileChange} />
+        {thumbnailError && <div className="error">{thumbnailError}</div>}
       </label>
 
       <button className="btn"> Signup</button>
