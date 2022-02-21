@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Signup.css";
+import { useSignup } from "../../hooks/useSignup";
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -7,14 +8,15 @@ function Signup() {
   const [displayName, setDisplayName] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [thumbnailError, setThumbnailError] = useState(null);
-
+  const { signup, isPending, error } = useSignup();
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email, password, displayName, thumbnail);
+    signup(email, password, displayName, thumbnail);
+
     setEmail("");
     setPassword("");
     setDisplayName("");
-    thumbnail("");
+    setThumbnail("");
   };
 
   const handleFileChange = (e) => {
@@ -73,7 +75,14 @@ function Signup() {
         {thumbnailError && <div className="error">{thumbnailError}</div>}
       </label>
 
-      <button className="btn"> Signup</button>
+      {!isPending && <button className="btn"> Signup</button>}
+      {isPending && (
+        <button className="btn" disabled>
+          Loading
+        </button>
+      )}
+
+      {error && <div className="error">{error}</div>}
     </form>
   );
 }

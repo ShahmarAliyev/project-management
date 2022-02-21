@@ -23,7 +23,7 @@ export const useSignup = () => {
         throw new Error("Could not complete signup");
       }
 
-      const uploadPath = `thumbnails/uid/${res.user.uid}/${thumbnail.name}`;
+      const uploadPath = `thumbnails/${res.user.uid}/${thumbnail.name}`;
       const img = await projectStorage.ref(uploadPath).put(thumbnail);
       const imgUrl = await img.ref.getDownloadURL();
       // add display name to user
