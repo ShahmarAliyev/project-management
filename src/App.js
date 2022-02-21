@@ -7,10 +7,13 @@ import Create from "./pages/Create/Create";
 import Signup from "./pages/Signup/Signup";
 import Project from "./pages/Project/Project";
 import Navbar from "./components/Navbar/Navbar";
+import Sidebar from "./components/Sidebar/Sidebar";
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Sidebar />
+
         <div className="container">
           <Navbar />
           <Routes>
