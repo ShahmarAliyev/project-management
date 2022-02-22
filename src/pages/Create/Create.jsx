@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { useCollection } from "../../hooks/useCollection";
-import { timeStamp } from "../../firebase/config";
+import { projectFirestore, timeStamp } from "../../firebase/config";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import "./Create.css";
+import { useFirestore } from "../../hooks/useFirestore";
+
 const categories = [
   { value: "development", label: "Development" },
   { value: "design", label: "Design" },
@@ -12,6 +15,9 @@ const categories = [
 ];
 
 function Create() {
+  const navigate = useNavigate();
+  const { addDocument, response } = useFirestore("projects");
+
   const { documents } = useCollection("users");
   const { user } = useAuthContext();
   const [users, setUsers] = useState([]);
@@ -31,7 +37,7 @@ function Create() {
     }
   }, [documents]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError(null);
     if (!category) {
@@ -66,7 +72,10 @@ function Create() {
       assignedUsersList,
     };
 
-    console.log(project);
+    await addDocument(project);
+    if (!response.error) {
+      navigate("/");
+    }
   };
 
   return (
