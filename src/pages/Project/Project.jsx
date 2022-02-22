@@ -1,12 +1,16 @@
 import { useParams } from "react-router-dom";
-import "./Project.css";
 import { useDocument } from "../../hooks/useDocument";
-import ProjectSummary from "./ProjectSummary";
-import ProjectComments from "../../components/ProjectComments/ProjectComments";
 
-function Project() {
+// components
+import ProjectComments from "./ProjectComments";
+import ProjectSummary from "./ProjectSummary";
+
+// styles
+import "./Project.css";
+
+export default function Project() {
   const { id } = useParams();
-  const { error, document } = useDocument("projects", id);
+  const { document, error } = useDocument("projects", id);
 
   if (error) {
     return <div className="error">{error}</div>;
@@ -18,9 +22,7 @@ function Project() {
   return (
     <div className="project-details">
       <ProjectSummary project={document} />
-      <ProjectComments />
+      <ProjectComments project={document} />
     </div>
   );
 }
-
-export default Project;
