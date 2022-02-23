@@ -1,9 +1,19 @@
 import Avatar from "../../components/Avatar/Avatar";
+import { useFirestore } from "../../hooks/useFirestore";
+import { useAuthContext } from "../../hooks/useAuthContext";
+
 function ProjectSummary({ project }) {
+  const { deleteDocument } = useFirestore("projects");
+  const { user } = useAuthContext();
+
+  const handleClick = (e) => {
+    deleteDocument(project.id);
+  };
   return (
     <div>
       <div className="project-summary">
         <h2 className="page-title">{document.name}</h2>
+        <p>By {project.createdBy.displayName}</p>
         <p className="due-date">
           {" "}
           Project due by {project.dueDate.toDate().toDateString()}
@@ -19,6 +29,11 @@ function ProjectSummary({ project }) {
           );
         })}
       </div>
+      {user.uid === project.createdBy.id && (
+        <button className="btn" onClick={handleClick}>
+          Mark as Complete
+        </button>
+      )}
     </div>
   );
 }
