@@ -36,11 +36,14 @@ function App() {
               />
               <Route
                 path="/signup"
-                element={!user ? <Signup /> : <Navigate to="/" />}
+                element={
+                  (!user && <Signup />) ||
+                  (user && user.displayName && <Navigate to="/" />)
+                }
               />
               <Route
                 path="/projects/:id"
-                element={user ? <Project /> : <Navigate to="/projects/:id" />}
+                element={user ? <Project /> : <Navigate to="/login" />}
               />
             </Routes>
           </div>
