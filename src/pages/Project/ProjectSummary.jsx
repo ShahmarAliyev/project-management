@@ -1,13 +1,15 @@
 import Avatar from "../../components/Avatar/Avatar";
 import { useFirestore } from "../../hooks/useFirestore";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
+import { useNavigate } from "react-router-dom";
 function ProjectSummary({ project }) {
+  const navigate = useNavigate();
   const { deleteDocument } = useFirestore("projects");
   const { user } = useAuthContext();
 
   const handleClick = (e) => {
     deleteDocument(project.id);
+    navigate("/");
   };
   return (
     <div>
